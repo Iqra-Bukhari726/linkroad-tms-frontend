@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#f4f7fb]">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EXPRESS TRANSPORTATION SERVICES : TMS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="h-full font-sans text-slate-800 antialiased flex overflow-hidden bg-[#f4f7fb]">
+  
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-[#141d2d] flex flex-col justify-between shrink-0 z-20">
+    <div>
+      <div class="px-5 py-6 flex items-center space-x-2.5">
+        <div class="text-xl">🚚</div>
+        <div>
+          <h1 class="text-xs font-black tracking-wider text-white uppercase leading-tight">EXPRESS</h1>
+          <h2 class="text-xs font-black tracking-wider text-white uppercase leading-tight">TRANSPORTATION</h2>
+          <h3 class="text-xs font-black tracking-wider text-white uppercase leading-tight">SERVICES : TMS</h3>
+        </div>
+      </div>
+      <nav class="p-3 space-y-1.5 text-xs font-medium">
+        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center px-4 py-3 rounded-lg text-white bg-[#3b82f6] font-semibold transition"><span>Dashboard</span></button>
+        <button onclick="switchTab('loadboard')" id="nav-loadboard" class="w-full flex items-center px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition"><span>Load Board</span></button>
+        <button onclick="switchTab('addload')" id="nav-addload" class="w-full flex items-center px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition"><span>Add Load</span></button>
+        <button onclick="switchTab('customers')" id="nav-customers" class="w-full flex items-center px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition"><span>Customers</span></button>
+        <button onclick="switchTab('carriers')" id="nav-carriers" class="w-full flex items-center px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition"><span>Carriers</span></button>
+        <button onclick="switchTab('invoices')" id="nav-invoices" class="w-full flex items-center px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition"><span>Invoices & Payments</span></button>
+        <button onclick="switchTab('users')" id="nav-users" class="w-full flex items-center px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition"><span>Users</span></button>
+        <button onclick="switchTab('reports')" id="nav-reports" class="w-full flex items-center px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition"><span>Reports & Analytics</span></button>
+      </nav>
+    </div>
+    <div class="p-4 text-[10px] text-slate-500 border-t border-slate-800">Linkroad & Express Group v2.4</div>
+  </aside>
+
+  <!-- MAIN CONTAINER -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#f8fafc]">
+    <header class="h-16 px-8 bg-white border-b border-slate-200 flex items-center justify-between shrink-0">
+      <h2 id="pageTitle" class="text-xl font-bold text-slate-900 tracking-tight">OPERATIONAL DASHBOARD</h2>
+      <div class="flex items-center space-x-3 text-xs">
+        <span class="font-medium text-slate-700">User: <strong class="text-slate-900">Administrator (adminx)</strong></span>
+        <button onclick="alert('Signed out successfully')" class="px-3 py-1.5 bg-[#ef4444] hover:bg-[#dc2626] text-white font-bold rounded-lg text-[11px]">Sign Out</button>
+      </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto p-8 space-y-6">
+      <!-- DASHBOARD TAB -->
+      <div id="tab-dashboard" class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="kpi-card border-l-4 border-l-blue-500"><div class="kpi-title">CURRENT MONTH TOTAL LOADS</div><div class="kpi-value" id="kpiTotalLoads">0</div></div>
+          <div class="kpi-card border-l-4 border-l-blue-500"><div class="kpi-title">AVAILABLE FOR PICKUP</div><div class="kpi-value">8</div></div>
+          <div class="kpi-card border-l-4 border-l-blue-500"><div class="kpi-title">FIND CARRIER</div><div class="kpi-value" id="kpiFindCarrier">0</div></div>
+          <div class="kpi-card border-l-4 border-l-blue-500"><div class="kpi-title">OUT FOR DELIVERY</div><div class="kpi-value">6</div></div>
+          <div class="kpi-card border-l-4 border-l-blue-500"><div class="kpi-title">COMPLETED TODAY</div><div class="kpi-value" id="kpiCompleted">0</div></div>
+          <div class="kpi-card border-l-4 border-l-blue-500"><div class="kpi-title">TOTAL CUSTOMERS</div><div class="kpi-value text-blue-600" id="kpiCustomerCount">0</div></div>
+          <div class="kpi-card border-l-4 border-l-blue-500"><div class="kpi-title">ACTIVE CARRIERS</div><div class="kpi-value text-blue-600" id="kpiCarrierCount">0</div></div>
+          <div class="kpi-card border-l-4 border-l-emerald-500"><div class="kpi-title">TOTAL REVENUE (LIVE)</div><div class="kpi-value text-emerald-600 font-mono" id="kpiRevenue">$0.00</div></div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <h3 class="font-bold text-sm text-slate-800 mb-4">Weekly Load Volume Trend</h3>
+            <div class="h-64"><canvas id="weeklyTrendChart"></canvas></div>
+          </div>
+          <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+            <h3 class="font-bold text-sm text-slate-800 mb-2">Shipment Status Breakdown</h3>
+            <div class="flex items-center justify-center h-48"><canvas id="statusDonutChart"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOAD BOARD TAB -->
+      <div id="tab-loadboard" class="space-y-4 hidden">
+        <div class="flex justify-between items-center">
+          <input id="loadSearchInput" oninput="filterLoads()" type="text" placeholder="Search container, customer, or DO#..." class="bg-white border border-slate-300 rounded-lg px-3.5 py-2 text-xs w-72">
+          <div class="flex items-center gap-2">
+            <button onclick="fetchLoads()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition">⟳ Refresh</button>
+            <button onclick="switchTab('addload')" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold">+ Create Load</button>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-100 font-bold border-b border-slate-200">
+              <tr>
+                <th class="px-4 py-3">DO / Load #</th>
+                <th>Assigned To</th>
+                <th>Container #</th>
+                <th>Type</th>
+                <th>Customer</th>
+                <th>Status</th>
+                <th>Rate ($)</th>
+                <th class="text-right px-4">Action</th>
+              </tr>
+            </thead>
+            <tbody id="loadboard-table-body" class="divide-y divide-slate-200"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ADD LOAD TAB -->
+      <div id="tab-addload" class="space-y-6 hidden">
+        <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm max-w-3xl">
+          <h3 class="font-bold text-sm text-slate-900 mb-4">Create New Load</h3>
+          <form onsubmit="handleSaveLoad(event)" class="space-y-4 text-xs">
+            <div class="grid grid-cols-2 gap-4">
+              <div><label class="block font-bold mb-1">DO Number</label><input id="formDoNumber" required class="w-full border rounded p-2 font-mono" placeholder="3540"></div>
+              <div><label class="block font-bold mb-1">Customer Name</label><input id="formCustomer" required class="w-full border rounded p-2" placeholder="e.g. Sika Corp"></div>
+              <div><label class="block font-bold mb-1">Container Number</label><input id="formContainer" required class="w-full border rounded p-2 font-mono uppercase" placeholder="CSNU8957278"></div>
+              <div>
+                <label class="block font-bold mb-1">Container Size</label>
+                <select id="formSize" class="w-full border rounded p-2">
+                  <option value="40HC">40HC</option>
+                  <option value="20GP">20GP</option>
+                  <option value="45HC">45HC</option>
+                </select>
+              </div>
+              <div><label class="block font-bold mb-1">Assigned Dispatcher</label><input id="formAssigned" class="w-full border rounded p-2" placeholder="Aleem"></div>
+              <div>
+                <label class="block font-bold mb-1">Cargo Type</label>
+                <select id="formCargoType" class="w-full border rounded p-2">
+                  <option value="IMPORT">IMPORT</option>
+                  <option value="EXPORT">EXPORT</option>
+                  <option value="DOMESTIC">DOMESTIC</option>
+                </select>
+              </div>
+              <div>
+                <label class="block font-bold mb-1">Initial Status</label>
+                <select id="formStatus" class="w-full border rounded p-2 font-semibold">
+                  <option value="Find Carrier">Find Carrier</option>
+                  <option value="In Transit">In Transit</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </div>
+              <div><label class="block font-bold mb-1">Total Rate ($)</label><input id="formRate" required type="number" step="0.01" value="565.00" class="w-full border rounded p-2 font-mono"></div>
+            </div>
+            <div><label class="block font-bold mb-1">Pickup Terminal</label><input id="formPickup" class="w-full border rounded p-2" placeholder="GLOBAL TERMINAL & CONTAINER SERVICE"></div>
+            <div><label class="block font-bold mb-1">Delivery Consignee</label><input id="formDelivery" class="w-full border rounded p-2" placeholder="SIKA CORP, LYNDHURST, NJ"></div>
+            <div class="pt-2"><button id="saveBtn" type="submit" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition">Save & Dispatch</button></div>
+          </form>
+        </div>
+      </div>
+
+      <!-- CUSTOMERS TAB -->
+      <div id="tab-customers" class="space-y-4 hidden">
+        <div class="flex justify-between items-center">
+          <input id="customerSearchInput" oninput="renderCustomers()" type="text" placeholder="Search customer name or contact..." class="bg-white border border-slate-300 rounded-lg px-3.5 py-2 text-xs w-72">
+          <button onclick="openCustomerModal()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold">+ Add Customer</button>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-100 font-bold border-b border-slate-200">
+              <tr>
+                <th class="px-4 py-3">Customer Company</th>
+                <th>Primary Contact</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Payment Terms</th>
+                <th>Credit Limit</th>
+                <th class="text-right px-4">Action</th>
+              </tr>
+            </thead>
+            <tbody id="customers-table-body" class="divide-y divide-slate-200"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CARRIERS TAB -->
+      <div id="tab-carriers" class="space-y-4 hidden">
+        <div class="flex justify-between items-center">
+          <input id="carrierSearchInput" oninput="renderCarriers()" type="text" placeholder="Search carrier, MC#, or DOT#..." class="bg-white border border-slate-300 rounded-lg px-3.5 py-2 text-xs w-72">
+          <button onclick="openCarrierModal()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold">+ Add Carrier</button>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-100 font-bold border-b border-slate-200">
+              <tr>
+                <th class="px-4 py-3">Carrier Company</th>
+                <th>MC / DOT #</th>
+                <th>Dispatcher / Contact</th>
+                <th>Phone & Email</th>
+                <th>Insurance Expiry</th>
+                <th>Status</th>
+                <th class="text-right px-4">Action</th>
+              </tr>
+            </thead>
+            <tbody id="carriers-table-body" class="divide-y divide-slate-200"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PLACEHOLDER TABS -->
+      <div id="tab-invoices" class="p-6 bg-white rounded-2xl hidden font-bold">Invoices & Payments Module</div>
+      <div id="tab-users" class="p-6 bg-white rounded-2xl hidden font-bold">User Management Module</div>
+      <div id="tab-reports" class="p-6 bg-white rounded-2xl hidden font-bold">Reports & Analytics Module</div>
+    </main>
+  </div>
+
+  <!-- CUSTOMER MODAL -->
+  <div id="customerModal" class="fixed inset-0 bg-slate-900/40 hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl p-6 max-w-md w-full space-y-4 shadow-xl">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-slate-900 text-sm">Add New Customer</h3>
+        <button onclick="closeCustomerModal()" class="text-slate-400 hover:text-slate-600 font-bold text-base">✕</button>
+      </div>
+      <form onsubmit="handleSaveCustomer(event)" class="space-y-3 text-xs">
+        <div><label class="block font-bold mb-1">Company Name</label><input id="custName" required class="w-full border rounded p-2" placeholder="e.g. Sika Corporation"></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block font-bold mb-1">Contact Person</label><input id="custContact" class="w-full border rounded p-2" placeholder="John Doe"></div>
+          <div><label class="block font-bold mb-1">Phone</label><input id="custPhone" class="w-full border rounded p-2" placeholder="201-555-0199"></div>
+        </div>
+        <div><label class="block font-bold mb-1">Email</label><input id="custEmail" type="email" class="w-full border rounded p-2" placeholder="billing@sikacorp.com"></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block font-bold mb-1">Credit Limit ($)</label><input id="custCredit" type="number" step="100" value="10000" class="w-full border rounded p-2 font-mono"></div>
+          <div>
+            <label class="block font-bold mb-1">Payment Terms</label>
+            <select id="custTerms" class="w-full border rounded p-2">
+              <option value="Net 15">Net 15</option>
+              <option value="Net 30" selected>Net 30</option>
+              <option value="Net 45">Net 45</option>
+              <option value="Due on Receipt">Due on Receipt</option>
+            </select>
+          </div>
+        </div>
+        <div><label class="block font-bold mb-1">Billing Address</label><textarea id="custAddress" rows="2" class="w-full border rounded p-2" placeholder="201 Polito Ave, Lyndhurst, NJ"></textarea></div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeCustomerModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold">Save Customer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CARRIER MODAL -->
+  <div id="carrierModal" class="fixed inset-0 bg-slate-900/40 hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl p-6 max-w-md w-full space-y-4 shadow-xl">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-slate-900 text-sm">Add New Carrier</h3>
+        <button onclick="closeCarrierModal()" class="text-slate-400 hover:text-slate-600 font-bold text-base">✕</button>
+      </div>
+      <form onsubmit="handleSaveCarrier(event)" class="space-y-3 text-xs">
+        <div><label class="block font-bold mb-1">Carrier Name</label><input id="carrName" required class="w-full border rounded p-2" placeholder="e.g. Express Haulers LLC"></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block font-bold mb-1">MC Number</label><input id="carrMC" required class="w-full border rounded p-2 font-mono" placeholder="MC-123456"></div>
+          <div><label class="block font-bold mb-1">DOT Number</label><input id="carrDOT" class="w-full border rounded p-2 font-mono" placeholder="DOT-987654"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block font-bold mb-1">Contact / Dispatcher</label><input id="carrContact" class="w-full border rounded p-2" placeholder="Sam Wilson"></div>
+          <div><label class="block font-bold mb-1">Phone</label><input id="carrPhone" class="w-full border rounded p-2" placeholder="800-555-4321"></div>
+        </div>
+        <div><label class="block font-bold mb-1">Email</label><input id="carrEmail" type="email" class="w-full border rounded p-2" placeholder="dispatch@expresshaulers.com"></div>
+        <div><label class="block font-bold mb-1">Insurance Expiry Date</label><input id="carrExpiry" required type="date" class="w-full border rounded p-2"></div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeCarrierModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold">Save Carrier</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SCRIPT LOADING ORDER -->
+  <script src="js/api.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/customers.js"></script>
+  <script src="js/carriers.js"></script>
+  <script src="js/loads.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
