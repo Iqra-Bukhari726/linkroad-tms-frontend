@@ -1,27 +1,34 @@
-function switchTab(t) {
-  ['dashboard', 'loadboard', 'addload', 'customers', 'carriers', 'invoices', 'users', 'reports'].forEach(id => {
-    const el = document.getElementById('tab-' + id);
-    const nav = document.getElementById('nav-' + id);
-    if (el) el.classList.toggle('hidden', id !== t);
-    if (nav) {
-      nav.className = (id === t)
-        ? 'w-full flex items-center px-4 py-3 rounded-lg text-white bg-[#3b82f6] font-semibold transition'
-        : 'w-full flex items-center px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition';
-    }
-  });
-
-  const pageTitle = document.getElementById('pageTitle');
-  if (pageTitle) pageTitle.innerText = t.toUpperCase();
-
-  if (t === 'customers') fetchCustomers();
-  if (t === 'carriers') fetchCarriers();
-  if (t === 'loadboard') fetchLoads();
-}
-
-// App Initialization
 document.addEventListener('DOMContentLoaded', () => {
-  initDashboardCharts();
-  fetchLoads();
-  fetchCustomers();
-  fetchCarriers();
+  // Check if token exists on load
+  const token = localStorage.getItem('tms_token');
+  
+  const loginForm = document.getElementById('login-form');
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const usernameInput = document.getElementById('username') || document.getElementById('login-username');
+      const passwordInput = document.getElementById('password') || document.getElementById('login-password');
+      const errorDiv = document.getElementById('login-error');
+
+      try {
+        await api.login(usernameInput.value, passwordInput.value);
+        if (errorDiv) errorDiv.textContent = '';
+        window.location.reload();
+      } catch (err) {
+        if (errorDiv) {
+          errorDiv.textContent = err.message || 'Invalid username or password';
+        } else {
+          alert('Login failed: ' + err.message);
+        }
+      }
+    });
+  }
+
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      api.logout();
+    });
+  }
 });
